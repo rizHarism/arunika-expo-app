@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Buku Tamu - Arunika Corp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-800 p-6">
+    <div class="max-w-5xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold text-gray-700">📋 Daftar Buku Tamu</h1>
+            <a href="./index.html" class="text-blue-600 hover:underline">← Kembali</a>
+        </div>
+
+        <div class="overflow-x-auto bg-white rounded-xl shadow border">
+            <table class="min-w-full text-sm text-left border-collapse">
+                <thead class="bg-blue-600 text-white">
+                    <tr>
+                        <th class="px-4 py-3">#</th>
+                        <th class="px-4 py-3">Nama</th>
+                        <th class="px-4 py-3">Gender</th>
+                        <th class="px-4 py-3">Pekerjaan</th>
+                        <th class="px-4 py-3">Alamat</th>
+                        <th class="px-4 py-3">No. HP</th>
+                        <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Sync</th>
+                    </tr>
+                </thead>
+                <tbody id="guestTable" class="divide-y divide-gray-200"></tbody>
+            </table>
+        </div>
+
+        <p id="statusMsg" class="text-center text-gray-500 mt-4"></p>
+    </div>
+
+    <script type="module" src="list.js"></script>
+</body>
+
+</html>

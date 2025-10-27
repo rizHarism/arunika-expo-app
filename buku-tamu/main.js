@@ -1,26 +1,25 @@
-// main.js
-const form = document.getElementById("guestForm");
-const statusMsg = document.getElementById("statusMsg");
+import { openDB } from "./db.js";
+import { syncData } from "./sync.js";
 
-// Ganti URL ini dengan Web App URL dari Google Apps Script kamu
-const scriptURL =
-  "https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxx/exec";
+document.addEventListener("DOMContentLoaded", async () => {
+  const db = await openDB();
+  const form = document.getElementById("guestForm");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  statusMsg.textContent = "Mengirim data...";
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.timestamp = new Date().toISOString();
+    data.synced = false;
 
-  fetch(scriptURL, { method: "POST", body: new FormData(form) })
-    .then((response) => {
-      if (response.ok) {
-        statusMsg.textContent = "✅ Terima kasih! Data berhasil dikirim.";
-        form.reset();
-      } else {
-        throw new Error("Gagal mengirim");
-      }
-    })
-    .catch((error) => {
-      statusMsg.textContent = "❌ Terjadi kesalahan. Coba lagi.";
-      console.error(error);
-    });
+    const tx = db.transaction("guests", "readwrite");
+    tx.objectStore("guests").add(data);
+
+    tx.oncomplete = () => {
+      alert("Data tersimpan offline ✅");
+      form.reset();
+      if (navigator.onLine) syncData();
+    };
+  });
+
+  window.addEventListener("online", syncData);
 });
