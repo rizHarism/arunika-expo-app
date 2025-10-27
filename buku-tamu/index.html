@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buku Tamu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+    <div class="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-10">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800 tracking-wide">
+            📝 Buku Tamu
+        </h1>
+
+        <form id="guestForm" class="grid md:grid-cols-2 gap-6">
+            <!-- Nama -->
+            <div class="col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Nama</label>
+                <input type="text" name="nama" class="w-full border rounded-lg p-3 focus:ring focus:ring-blue-200"
+                    placeholder="Nama Lengkap .." required />
+            </div>
+
+            <!-- Gender -->
+            <div class="col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Gender</label>
+                <select name="gender" class="w-full border rounded-lg p-3 focus:ring focus:ring-blue-200" required>
+                    <option disabled selected>Pilih Gender</option>
+                    <option value="laki-laki">Laki-Laki</option>
+                    <option value="perempuan">Perempuan</option>
+                </select>
+            </div>
+
+            <!-- Pekerjaan -->
+            <div class="col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Pekerjaan</label>
+                <input type="text" name="pekerjaan" class="w-full border rounded-lg p-3 focus:ring focus:ring-blue-200"
+                    placeholder="Karyawan / Pelajar / ..." required />
+            </div>
+
+            <!-- No HP -->
+            <div class="col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">No. HP</label>
+                <input type="text" name="phone" class="w-full border rounded-lg p-3 focus:ring focus:ring-blue-200"
+                    placeholder="812345xxxxx" required />
+            </div>
+
+            <!-- Email -->
+            <div class="col-span-2 md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" name="email" class="w-full border rounded-lg p-3 focus:ring focus:ring-blue-200"
+                    placeholder="Email Anda" required />
+            </div>
+
+            <!-- Alamat -->
+            <div class="col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Alamat</label>
+                <textarea name="alamat" rows="3" class="w-full border rounded-lg p-3 focus:ring focus:ring-blue-200"
+                    placeholder="Alamat .." required></textarea>
+            </div>
+
+            <!-- Tombol -->
+            <div class="col-span-2">
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition">
+                    Kirim
+                </button>
+            </div>
+        </form>
+
+        <p id="statusMsg" class="text-center mt-6 text-sm text-gray-600"></p>
+
+        <div class="text-center mt-8">
+            <a href="../index.html" class="text-blue-600 hover:underline">← Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
