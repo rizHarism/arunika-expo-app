@@ -8,18 +8,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const req = store.getAll();
   req.onsuccess = () => {
-    const tbody = document.getElementById("guestTable");
+    const tbody = document.getElementById("guestTableBody");
     req.result.forEach((tamu, i) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td>${i + 1}</td>
-        <td>${tamu.nama}</td>
-        <td>${tamu.gender}</td>
-        <td>${tamu.pekerjaan}</td>
-        <td>${tamu.alamat}</td>
-        <td>${tamu.phone}</td>
-        <td>${tamu.email}</td>
-        <td>${tamu.synced ? "✅" : "⏳"}</td>
+        <td class='p-4 border border-gray-300 text-center'>${i + 1}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.nama}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.gender}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.pekerjaan}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.alamat}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.phone}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.email}</td>
+        <td class='p-4 border border-gray-300 text-center'>${
+          tamu.synced ? "✅" : "⏳"
+        }</td>
       `;
       tbody.appendChild(row);
     });
