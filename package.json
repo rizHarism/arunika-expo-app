@@ -1,0 +1,23 @@
+{
+  "name": "portal-app-expo-ub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rizHarism/arunika-expo-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rizHarism/arunika-expo-app/issues"
+  },
+  "homepage": "https://github.com/rizHarism/arunika-expo-app#readme",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}

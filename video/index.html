@@ -5,52 +5,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dokumentasi Video | Arunika Corp</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/tailwind.css">
+    <style>
+        video::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+
+        video::-webkit-media-controls {
+            display: none !important;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden">
+<body class="min-h-screen bg-[#264766] flex flex-col items-center justify-center relative overflow-hidden">
 
     <!-- Tombol Kembali -->
-    <a href="../index.html"
-        class="absolute top-4 left-4 bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-full backdrop-blur-md transition">
-        ⬅️ Kembali
+    <a id="back-button" href="../index.html"
+        class="fixed z-50 top-6 left-4 bg-white/10 text-white w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 text-2xl md:text-xl sm:text-sm flex items-center justify-center rounded-full shadow-lg hover:bg-white/20 transition">
+        ⬅️
     </a>
 
     <!-- Judul -->
-    <div class="absolute top-6 right-6 text-right text-white/80">
-        <h1 class="text-2xl font-bold tracking-wide">Dokumentasi Video</h1>
-        <p class="text-sm">Arunika Corp</p>
+    <div
+        class="absolute z-50 top-6 right-6 text-right text-white/80 bg-white/10 shadow-lg backdrop-blur-xl px-5 py-3 md:px-5 md:py-3 sm:px-3 sm:py-2 rounded-xl">
+        <h1 class="text-2xl md:text-3xl sm:text-sm font-bold tracking-wide">Dokumentasi Video</h1>
+        <p class="text-sm md:text-base">Arunika Corp</p>
     </div>
 
     <!-- Video Utama -->
-    <video id="videoPlayer" class="w-[90%] h-[90%] md:w-[90%] aspect-video object-cover rounded-2xl shadow-2xl" autoplay
-        playsinline></video>
+    <!-- <video id="videoPlayer" class="w-[90%] md:w-[90%] sm:w-[85%] rounded-xl aspect-video object-cover  shadow-2xl"
+        autoplay playsinline></video> -->
+
+    <!-- Video Wrapper -->
+    <div id="videoWrapper"
+        class="relative w-[90%] md:w-[90%] sm:w-[85%] aspect-video rounded-xl overflow-hidden shadow-2xl obje">
+
+        <!-- Loading / Poster -->
+        <div id="videoOverlay"
+            class="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-xl font-semibold backdrop-blur-lg">
+            Memuat video...
+        </div>
+
+        <video id="videoPlayer" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" playsinline
+            preload="metadata"></video>
+    </div>
 
     <!-- Kontrol Kustom -->
     <div id="controls"
-        class="absolute bottom-12 bg-black/40 backdrop-blur-md text-white px-6 py-3 rounded-full flex items-center space-x-6">
-        <button id="prevBtn" class="hover:text-yellow-300 transition">⏮️ Sebelumnya</button>
-        <button id="playPauseBtn" class="hover:text-yellow-300 transition">⏸️ Pause</button>
-        <button id="nextBtn" class="hover:text-yellow-300 transition">⏭️ Berikutnya</button>
+        class="absolute sm:bottom-6 bottom-12 bg-white/10 backdrop-blur-md text-white px-4 py-3 rounded-full flex items-center justify-center space-x-6 shadow-lg">
+        <button id="prevBtn"
+            class="w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-[#005c85]/50 hover:bg-[#005c85]/70 transition text-2xl md:text-xl sm:text-sm">
+            ⏮️
+        </button>
+        <button id="playPauseBtn"
+            class="w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-[#27a154]/50 hover:bg-[#27a154]/70 transition text-2xl md:text-xl sm:text-sm">
+            ⏸️
+        </button>
+        <button id="nextBtn"
+            class="w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-[#005c85]/50 hover:bg-[#005c85]/70 transition text-2xl md:text-xl sm:text-sm">
+            ⏭️
+        </button>
     </div>
 
     <script>
         const videos = [
             "../assets/video/1.mp4",
             "../assets/video/2.mp4",
-            // "../assets/video/video3.mp4"
         ];
 
         const player = document.getElementById('videoPlayer');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
+        const overlay = document.getElementById('videoOverlay');
+
+        // Fade in when ready
+        player.addEventListener("loadeddata", () => {
+            overlay.classList.add("opacity-0");
+            overlay.classList.add("pointer-events-none");
+            player.classList.remove("opacity-0");
+        });
+
+        // Still show overlay if buffering
+        player.addEventListener("waiting", () => {
+            overlay.textContent = "Memuat...";
+            overlay.classList.remove("opacity-0");
+        });
+
+        // Hide overlay once playing
+        player.addEventListener("playing", () => {
+            overlay.classList.add("opacity-0");
+        });
 
         let current = 0;
         let isPaused = false;
 
         function playVideo(index) {
+            player.classList.add("opacity-0");
+            overlay.classList.remove("opacity-0");
+            overlay.textContent = "Memuat video...";
             current = (index + videos.length) % videos.length;
+
             player.src = videos[current];
             player.play().catch(() => { });
         }
@@ -70,10 +125,10 @@
         playPauseBtn.addEventListener('click', () => {
             if (isPaused) {
                 player.play();
-                playPauseBtn.textContent = '⏸️ Pause';
+                playPauseBtn.textContent = '⏸️';
             } else {
                 player.pause();
-                playPauseBtn.textContent = '▶️ Play';
+                playPauseBtn.textContent = '▶️';
             }
             isPaused = !isPaused;
         });
@@ -86,5 +141,6 @@
         playVideo(current);
     </script>
 </body>
+
 
 </html>

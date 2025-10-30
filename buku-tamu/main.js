@@ -1,41 +1,111 @@
 import { openDB } from "./db.js";
 import { syncData } from "./sync.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const db = await openDB();
-  const form = document.getElementById("guestForm");
-  const statusMsg = document.getElementById("statusMsg");
+// Detect environment
+const isCordova = typeof window.cordova !== "undefined";
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+function initApp() {
+  (async () => {
+    const db = await openDB();
+    const form = document.getElementById("guestForm");
 
-    // Ambil semua data form
-    const data = Object.fromEntries(new FormData(form).entries());
-    data.id = crypto.randomUUID(); // id unik untuk setiap tamu
-    data.timestamp = new Date().toISOString();
-    data.synced = false;
+    // ✅ TOAST CONTAINER
+    const toastContainer = document.createElement("div");
+    toastContainer.id = "toast-wrapper";
+    toastContainer.className =
+      "fixed top-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center space-y-2";
+    document.body.appendChild(toastContainer);
 
-    // Simpan ke IndexedDB
-    const tx = db.transaction("guests", "readwrite");
-    const store = tx.objectStore("guests");
-    await store.add(data);
+    function showToast(message, color = "bg-blue-600") {
+      const toast = document.createElement("div");
+      toast.textContent = message;
+      toast.className = `${color} text-white px-6 py-3 rounded-lg shadow-lg text-center opacity-0 transition duration-300`;
+      toastContainer.appendChild(toast);
 
-    statusMsg.textContent = "📦 Data tersimpan offline";
-    form.reset();
+      requestAnimationFrame(() => toast.classList.add("opacity-100"));
 
-    // Jika online, langsung sync
-    if (navigator.onLine) {
-      statusMsg.textContent = "🔄 Sinkronisasi data...";
-      await syncData();
-      statusMsg.textContent = "✅ Data tersinkron ke server";
+      setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
     }
-  });
 
-  await syncData();
-  // Jalankan sync otomatis ketika koneksi kembali online
-  window.addEventListener("online", async () => {
-    statusMsg.textContent = "🌐 Koneksi kembali online, sinkronisasi data...";
-    await syncData();
-    statusMsg.textContent = "✅ Semua data sudah sinkron";
-  });
-});
+    // ✅ Expose to global
+    window.showToast = showToast;
+
+    // ✅ LOADING INSIDE FORM
+    function showLoading(show = true) {
+      let loader = document.getElementById("form-loader");
+      if (!loader) {
+        loader = document.createElement("div");
+        loader.id = "form-loader";
+        loader.className =
+          "absolute inset-0 bg-white/60 flex items-center justify-center rounded-3xl backdrop-blur-sm";
+        loader.innerHTML = `<span class="text-lg font-semibold text-gray-800">💾 Menyimpan...</span>`;
+        form.parentElement.appendChild(loader);
+      }
+      loader.style.display = show ? "flex" : "none";
+    }
+
+    // ✅ SAVE + SYNC
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      showLoading(true);
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.id = crypto.randomUUID();
+      data.timestamp = new Date().toISOString();
+      data.synced = false;
+
+      try {
+        const tx = db.transaction("guests", "readwrite");
+        await tx.objectStore("guests").add(data);
+        await tx.done;
+
+        form.reset();
+        showLoading(false);
+        showToast("📦 Data tersimpan", "bg-green-600");
+
+        if (navigator.onLine) {
+          showToast("🔄 Sinkronisasi…", "bg-yellow-600");
+          await syncData();
+          showToast("✅ Data tersinkron", "bg-green-600");
+        }
+      } catch (err) {
+        showLoading(false);
+        console.error(err);
+        showToast("⚠️ Gagal menyimpan", "bg-red-600");
+      }
+    });
+
+    // ✅ NETWORK EVENTS (MUST be outside inner deviceready)
+    function registerNetworkEvents() {
+      window.addEventListener("online", async () => {
+        console.log("✅ ONLINE event detected");
+        showToast("🌐 Online — sinkronisasi…", "bg-yellow-600");
+        await syncData();
+        showToast("✅ Semua data sinkron", "bg-green-600");
+      });
+
+      window.addEventListener("offline", () => {
+        console.log("❌ OFFLINE event detected");
+        showToast("📴 Offline — data disimpan lokal", "bg-gray-700");
+      });
+    }
+    window.registerNetworkEvents = registerNetworkEvents;
+
+    // ✅ AUTO SYNC every 30s
+    setInterval(async () => {
+      if (navigator.onLine) await syncData();
+    }, 30000);
+
+    registerNetworkEvents(); // ✅ Attach here once
+  })();
+}
+
+// ✅ CORDOVA FIRST — Browser fallback
+if (isCordova) {
+  document.addEventListener("deviceready", initApp);
+} else {
+  document.addEventListener("DOMContentLoaded", initApp);
+}

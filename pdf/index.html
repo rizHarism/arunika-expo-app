@@ -5,62 +5,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Company Profile - Arunika Corp</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/tailwind.css">
+    <script src="../assets/js/pdf.min.js"></script>
 </head>
 
-<body class="min-h-screen bg-black text-white flex flex-col items-center relative overflow-y-auto">
+<body class="min-h-screen bg-[#264766] text-white flex flex-col items-center relative overflow-y-auto">
+
     <!-- Tombol kembali -->
-    <a href="../index.html"
-        class="fixed top-4 left-4 bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-full backdrop-blur-md transition">
-        ⬅️ Kembali
+    <a id="back-button" href="../index.html"
+        class="fixed z-50 top-6 left-4 z-50 bg-white/10 text-white w-16 h-16 flex items-center justify-center rounded-full shadow-lg hover:bg-white/20 transition">
+        ⬅️
     </a>
 
     <!-- Judul -->
-    <div class="fixed top-6 right-6 text-right text-white/80">
-        <h1 class="text-2xl font-bold tracking-wide">Company Profile</h1>
-        <p class="text-sm">Arunika Corp</p>
+    <div id="judul"
+        class="fixed top-6 right-6 z-50 text-right text-white/90 bg-white/10 shadow-lg backdrop-blur-xl px-5 py-3 rounded-xl">
+        <h1 class="text-2xl md:text-3xl font-bold tracking-wide">Company Profile</h1>
+        <p class="text-sm md:text-base">Arunika Corp</p>
     </div>
 
     <!-- Container PDF -->
     <div id="pdf-container"
-        class="mt-24 mb-12 w-[100%] max-w-4xl bg-gray-900 rounded-xl shadow-lg border border-gray-700 p-4 space-y-6">
+        class="mt-10 mb-5 w-[95%] md:w-[80%] max-w-6xl bg-gray-300/10 rounded-xl shadow-2xl border border-gray-700 p-4 space-y-6 backdrop-blur-md">
         <!-- halaman PDF akan dirender disini -->
     </div>
 
     <script>
-        const url = "../assets/pdf/KDR_Legal.pdf";
+        const url = "../assets/pdf/Company_Profile_Arunika.pdf";
         const container = document.getElementById("pdf-container");
 
-        // ✅ wajib untuk menghilangkan warning worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc =
-            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "../assets/js/pdf.worker.min.js";
 
-        // muat dokumen PDF
-        pdfjsLib.getDocument(url).promise.then(pdf => {
+        async function renderPDF() {
+            const pdf = await pdfjsLib.getDocument(url).promise;
             const total = pdf.numPages;
+
             console.log(`Jumlah halaman: ${total}`);
 
-            // render semua halaman PDF
-            for (let i = 1; i <= total; i++) {
-                pdf.getPage(i).then(page => {
-                    // buat elemen canvas untuk tiap halaman
-                    const canvas = document.createElement("canvas");
-                    canvas.classList.add("rounded-lg", "shadow-md", "w-full");
-                    container.appendChild(canvas);
+            // Render queue — avoid freezing UI
+            async function renderPage(pageNum) {
+                const page = await pdf.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 2 });
 
-                    const context = canvas.getContext("2d");
-                    const viewport = page.getViewport({ scale: 1.2 });
+                const wrapper = document.createElement("div");
+                wrapper.className = "relative mb-6";
 
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
+                // Skeleton placeholder
+                const placeholder = document.createElement("div");
+                placeholder.className = "animate-pulse bg-gray-700/30 rounded-xl w-full h-[450px]";
+                wrapper.appendChild(placeholder);
 
-                    // render halaman ke canvas
-                    page.render({ canvasContext: context, viewport });
-                });
+                container.appendChild(wrapper);
+
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                await page.render({ canvasContext: ctx, viewport }).promise;
+
+                // After render — replace skeleton
+                wrapper.removeChild(placeholder);
+                canvas.className = "rounded-xl shadow-xl w-full";
+                wrapper.appendChild(canvas);
             }
-        });
+
+            // Render first page instantly
+            await renderPage(1);
+
+            // Queue the rest with small delay
+            for (let i = 2; i <= total; i++) {
+                setTimeout(() => renderPage(i), i * 200);
+            }
+        }
+
+        renderPDF();
     </script>
+
 </body>
 
 </html>
