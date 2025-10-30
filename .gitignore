@@ -1,0 +1,5 @@
+assets/video/*
+!assets/video/.gitignore
+
+assets/pdf/*
+!assets/pdf/.gitignore
