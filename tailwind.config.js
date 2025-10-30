@@ -8,7 +8,11 @@ module.exports = {
     "./assets/js/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["League Spartan", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
