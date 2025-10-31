@@ -1,241 +1,213 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dokumentasi Video | Arunika Corp</title>
-    <link rel="stylesheet" href="../assets/css/fonts.css" />
-    <link rel="stylesheet" href="../assets/css/tailwind.css" />
-    <style>
-      /* Hilangkan hanya tombol play bawaan */
-      video::-webkit-media-controls-play-button {
-        display: none !important;
-      }
 
-      /* Animasi sembunyikan kontrol */
-      #controls {
-        transition: opacity 0.4s ease;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dokumentasi Video | Arunika Corp</title>
+  <link rel="stylesheet" href="../assets/css/fonts.css" />
+  <link rel="stylesheet" href="../assets/css/tailwind.css" />
+  <style>
+    /* Hilangkan hanya tombol play bawaan */
+    video::-webkit-media-controls-play-button {
+      display: none !important;
+    }
 
-      /* Tombol progress bar agar lebih halus */
-      input[type="range"]::-webkit-slider-thumb {
-        appearance: none;
-        width: 12px;
-        height: 12px;
-        background: #27a154;
-        border-radius: 50%;
-        cursor: pointer;
-      }
+    /* Animasi sembunyikan kontrol */
+    #controls {
+      transition: opacity 0.4s ease;
+    }
 
-      input[type="range"]::-moz-range-thumb {
-        width: 12px;
-        height: 12px;
-        background: #27a154;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-    </style>
-  </head>
+    /* Tombol progress bar agar lebih halus */
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: #27a154;
+      border-radius: 50%;
+      cursor: pointer;
+    }
 
-  <body
-    class="font-sans min-h-screen bg-[#264766] flex flex-col items-center justify-center relative overflow-hidden"
-  >
-    <!-- Tombol Kembali -->
-    <a
-      id="back-button"
-      href="../index.html"
-      class="fixed z-50 top-6 left-4 bg-white/10 text-white w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 text-2xl md:text-xl sm:text-sm flex items-center justify-center rounded-full shadow-lg hover:bg-white/20 transition"
-    >
-      ⬅️
-    </a>
+    input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: #27a154;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
+</head>
 
-    <!-- Judul -->
-    <div
-      class="absolute z-50 top-6 right-6 text-right text-white/80 bg-white/10 shadow-lg backdrop-blur-xl px-5 py-3 md:px-5 md:py-3 sm:px-3 sm:py-2 rounded-xl"
-    >
-      <h1 class="text-2xl md:text-3xl sm:text-sm font-bold tracking-wide">
-        Dokumentasi Video
-      </h1>
-      <p class="text-sm md:text-base">Arunika Corp</p>
+<body class="font-sans min-h-screen bg-[#264766] flex flex-col items-center justify-center relative overflow-hidden">
+  <!-- Tombol Kembali -->
+  <a id="back-button" href="../index.html"
+    class="fixed z-50 top-6 left-4 bg-white/10 text-white w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 text-2xl md:text-xl sm:text-sm flex items-center justify-center rounded-full shadow-lg hover:bg-white/20 transition">
+    ⬅️
+  </a>
+
+  <!-- Judul -->
+  <div
+    class="absolute z-50 top-6 right-6 text-right text-white/80 bg-white/10 shadow-lg backdrop-blur-xl px-5 py-3 md:px-5 md:py-3 sm:px-3 sm:py-2 rounded-xl">
+    <h1 class="text-2xl md:text-3xl sm:text-sm font-bold tracking-wide">
+      Dokumentasi Video
+    </h1>
+    <p class="text-sm md:text-base">Arunika Corp</p>
+  </div>
+
+  <!-- Video Wrapper -->
+  <div id="videoWrapper"
+    class="relative w-[90%] md:w-[90%] sm:w-[85%] aspect-video rounded-xl overflow-hidden shadow-2xl">
+    <div id="videoOverlay"
+      class="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-xl font-semibold backdrop-blur-lg transition-opacity duration-500">
+      Memuat video...
     </div>
 
-    <!-- Video Wrapper -->
-    <div
-      id="videoWrapper"
-      class="relative w-[90%] md:w-[90%] sm:w-[85%] aspect-video rounded-xl overflow-hidden shadow-2xl"
-    >
-      <div
-        id="videoOverlay"
-        class="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-xl font-semibold backdrop-blur-lg transition-opacity duration-500"
-      >
-        Memuat video...
+    <video id="videoPlayer" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" playsinline
+      preload="metadata"></video>
+
+    <!-- Kontrol Kustom -->
+    <div id="controls"
+      class="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[80%] sm:w-[90%] bg-white/10 backdrop-blur-md text-white px-4 py-3 rounded-full flex items-center justify-between shadow-lg opacity-100">
+      <!-- Kiri: Tombol prev, play, next -->
+      <div class="flex items-center space-x-4">
+        <button id="prevBtn"
+          class="w-12 h-12 flex items-center justify-center rounded-full bg-[#005c85]/50 hover:bg-[#005c85]/70 transition text-xl">
+          ⏮️
+        </button>
+
+        <button id="playPauseBtn"
+          class="w-12 h-12 flex items-center justify-center rounded-full bg-[#27a154]/50 hover:bg-[#27a154]/70 transition text-xl">
+          ⏸️
+        </button>
+
+        <button id="nextBtn"
+          class="w-12 h-12 flex items-center justify-center rounded-full bg-[#005c85]/50 hover:bg-[#005c85]/70 transition text-xl">
+          ⏭️
+        </button>
       </div>
 
-      <video
-        id="videoPlayer"
-        class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-        playsinline
-        preload="metadata"
-      ></video>
+      <!-- Tengah: Progress Bar -->
+      <div class="flex-1 mx-6">
+        <input id="progressBar" type="range" min="0" max="100" value="0"
+          class="w-full h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer accent-green-500" />
+      </div>
 
-      <!-- Kontrol Kustom -->
-      <div
-        id="controls"
-        class="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-[90%] md:w-[80%] sm:w-[90%] bg-white/10 backdrop-blur-md text-white px-4 py-3 rounded-full flex items-center justify-between shadow-lg opacity-100"
-      >
-        <!-- Kiri: Tombol prev, play, next -->
-        <div class="flex items-center space-x-4">
-          <button
-            id="prevBtn"
-            class="w-12 h-12 flex items-center justify-center rounded-full bg-[#005c85]/50 hover:bg-[#005c85]/70 transition text-xl"
-          >
-            ⏮️
-          </button>
-
-          <button
-            id="playPauseBtn"
-            class="w-12 h-12 flex items-center justify-center rounded-full bg-[#27a154]/50 hover:bg-[#27a154]/70 transition text-xl"
-          >
-            ⏸️
-          </button>
-
-          <button
-            id="nextBtn"
-            class="w-12 h-12 flex items-center justify-center rounded-full bg-[#005c85]/50 hover:bg-[#005c85]/70 transition text-xl"
-          >
-            ⏭️
-          </button>
-        </div>
-
-        <!-- Tengah: Progress Bar -->
-        <div class="flex-1 mx-6">
-          <input
-            id="progressBar"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            class="w-full h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer accent-green-500"
-          />
-        </div>
-
-        <!-- Kanan: Tombol Fullscreen -->
-        <div class="flex items-center">
-          <button
-            id="fullscreenBtn"
-            class="w-12 h-12 flex items-center justify-center rounded-full bg-[#444]/50 hover:bg-[#444]/70 transition text-xl"
-          >
-            ⛶
-          </button>
-        </div>
+      <!-- Kanan: Tombol Fullscreen -->
+      <div class="flex items-center">
+        <button id="fullscreenBtn"
+          class="w-12 h-12 flex items-center justify-center rounded-full bg-[#444]/50 hover:bg-[#444]/70 transition text-xl">
+          ⛶
+        </button>
       </div>
     </div>
+  </div>
 
-    <script>
-      const videos = [
-        "../assets/video/1.mp4",
-        "../assets/video/2.mp4",
-        "../assets/video/3.mp4",
-      ];
-      const player = document.getElementById("videoPlayer");
-      const playPauseBtn = document.getElementById("playPauseBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const prevBtn = document.getElementById("prevBtn");
-      const fullscreenBtn = document.getElementById("fullscreenBtn");
-      const overlay = document.getElementById("videoOverlay");
-      const progressBar = document.getElementById("progressBar");
-      const controls = document.getElementById("controls");
-      const videoWrapper = document.getElementById("videoWrapper");
+  <script>
+    const videos = [
+      "../assets/video/p330.mp4",
+      "../assets/video/esteer.mp4",
+      "../assets/video/team.mp4",
+    ];
+    const player = document.getElementById("videoPlayer");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+    const overlay = document.getElementById("videoOverlay");
+    const progressBar = document.getElementById("progressBar");
+    const controls = document.getElementById("controls");
+    const videoWrapper = document.getElementById("videoWrapper");
 
-      let current = 0;
-      let isPaused = false;
-      let hideTimeout = null;
+    let current = 0;
+    let isPaused = false;
+    let hideTimeout = null;
 
-      function playVideo(index) {
-        player.classList.add("opacity-0");
-        overlay.classList.remove("opacity-0");
-        overlay.textContent = "Memuat video...";
-        current = (index + videos.length) % videos.length;
-        player.src = videos[current];
-        player.play().catch(() => {});
+    function playVideo(index) {
+      player.classList.add("opacity-0");
+      overlay.classList.remove("opacity-0");
+      overlay.textContent = "Memuat video...";
+      current = (index + videos.length) % videos.length;
+      player.src = videos[current];
+      player.play().catch(() => { });
+    }
+
+    function playNext() {
+      playVideo(current + 1);
+    }
+
+    function playPrev() {
+      playVideo(current - 1);
+    }
+
+    player.addEventListener("loadeddata", () => {
+      overlay.classList.add("opacity-0");
+      player.classList.remove("opacity-0");
+    });
+
+    player.addEventListener("waiting", () => {
+      overlay.textContent = "Memuat...";
+      overlay.classList.remove("opacity-0");
+    });
+
+    player.addEventListener("playing", () => {
+      overlay.classList.add("opacity-0");
+    });
+
+    player.addEventListener("ended", playNext);
+
+    // Play/Pause
+    playPauseBtn.addEventListener("click", () => {
+      if (isPaused) {
+        player.play();
+        playPauseBtn.textContent = "⏸️";
+      } else {
+        player.pause();
+        playPauseBtn.textContent = "▶️";
       }
+      isPaused = !isPaused;
+    });
 
-      function playNext() {
-        playVideo(current + 1);
+    nextBtn.addEventListener("click", playNext);
+    prevBtn.addEventListener("click", playPrev);
+
+    // Fullscreen toggle
+    fullscreenBtn.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        videoWrapper.requestFullscreen().catch(console.error);
+      } else {
+        document.exitFullscreen();
       }
+    });
 
-      function playPrev() {
-        playVideo(current - 1);
-      }
+    // Progress bar update
+    player.addEventListener("timeupdate", () => {
+      const progress = (player.currentTime / player.duration) * 100;
+      progressBar.value = progress || 0;
+    });
 
-      player.addEventListener("loadeddata", () => {
-        overlay.classList.add("opacity-0");
-        player.classList.remove("opacity-0");
-      });
+    // Klik progress bar untuk seek
+    progressBar.addEventListener("input", (e) => {
+      const time = (e.target.value / 100) * player.duration;
+      player.currentTime = time;
+    });
 
-      player.addEventListener("waiting", () => {
-        overlay.textContent = "Memuat...";
-        overlay.classList.remove("opacity-0");
-      });
-
-      player.addEventListener("playing", () => {
-        overlay.classList.add("opacity-0");
-      });
-
-      player.addEventListener("ended", playNext);
-
-      // Play/Pause
-      playPauseBtn.addEventListener("click", () => {
-        if (isPaused) {
-          player.play();
-          playPauseBtn.textContent = "⏸️";
-        } else {
-          player.pause();
-          playPauseBtn.textContent = "▶️";
+    // ===== Hide/Show Controls Saat Fullscreen =====
+    function showControls() {
+      controls.style.opacity = "1";
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        if (document.fullscreenElement) {
+          controls.style.opacity = "0";
         }
-        isPaused = !isPaused;
-      });
+      }, 3000); // sembunyikan setelah 3 detik
+    }
 
-      nextBtn.addEventListener("click", playNext);
-      prevBtn.addEventListener("click", playPrev);
+    videoWrapper.addEventListener("mousemove", showControls);
+    videoWrapper.addEventListener("click", showControls);
 
-      // Fullscreen toggle
-      fullscreenBtn.addEventListener("click", () => {
-        if (!document.fullscreenElement) {
-          videoWrapper.requestFullscreen().catch(console.error);
-        } else {
-          document.exitFullscreen();
-        }
-      });
+    // Jalankan video pertama
+    playVideo(current);
+  </script>
+</body>
 
-      // Progress bar update
-      player.addEventListener("timeupdate", () => {
-        const progress = (player.currentTime / player.duration) * 100;
-        progressBar.value = progress || 0;
-      });
-
-      // Klik progress bar untuk seek
-      progressBar.addEventListener("input", (e) => {
-        const time = (e.target.value / 100) * player.duration;
-        player.currentTime = time;
-      });
-
-      // ===== Hide/Show Controls Saat Fullscreen =====
-      function showControls() {
-        controls.style.opacity = "1";
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => {
-          if (document.fullscreenElement) {
-            controls.style.opacity = "0";
-          }
-        }, 3000); // sembunyikan setelah 3 detik
-      }
-
-      videoWrapper.addEventListener("mousemove", showControls);
-      videoWrapper.addEventListener("click", showControls);
-
-      // Jalankan video pertama
-      playVideo(current);
-    </script>
-  </body>
 </html>
