@@ -97,10 +97,12 @@ function initApp() {
     // ✅ AUTO SYNC every 30s
     setInterval(async () => {
       if (navigator.onLine) await syncData();
-    }, 30000);
+    }, 10000);
 
     registerNetworkEvents(); // ✅ Attach here once
   })();
+
+  syncData();
 }
 
 // ✅ CORDOVA FIRST — Browser fallback
