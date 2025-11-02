@@ -70,6 +70,8 @@ function initApp() {
           showToast("🔄 Sinkronisasi…", "bg-yellow-600");
           await syncData();
           showToast("✅ Data tersinkron", "bg-green-600");
+        } else {
+          showToast("📴 Offline — data disimpan lokal", "bg-gray-700");
         }
       } catch (err) {
         showLoading(false);
@@ -97,12 +99,13 @@ function initApp() {
     // ✅ AUTO SYNC every 30s
     setInterval(async () => {
       if (navigator.onLine) await syncData();
-    }, 10000);
+    }, 30000);
 
     registerNetworkEvents(); // ✅ Attach here once
+    if (navigator.onLine) {
+      await syncData();
+    }
   })();
-
-  syncData();
 }
 
 // ✅ CORDOVA FIRST — Browser fallback
