@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td class='p-4 border border-gray-300 '>${tamu.nama}</td>
         <td class='p-4 border border-gray-300 '>${tamu.gender}</td>
         <td class='p-4 border border-gray-300 '>${tamu.pekerjaan}</td>
+        <td class='p-4 border border-gray-300 '>${tamu.instansi}</td>
         <td class='p-4 border border-gray-300 '>${tamu.alamat}</td>
         <td class='p-4 border border-gray-300 '>${tamu.phone}</td>
-        <td class='p-4 border border-gray-300 '>${tamu.email}</td>
         <td class='p-4 border border-gray-300 text-center'>${
           tamu.synced ? "✅" : "⏳"
         }</td>

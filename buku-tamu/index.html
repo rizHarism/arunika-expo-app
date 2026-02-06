@@ -16,10 +16,10 @@
   <!-- Overlay (optional, for extra contrast) -->
   <div class="absolute inset-0 bg-black/30"></div>
   <!-- Back Button -->
-  <!-- <a id="back-button" href="../index.html"
+  <a id="back-button" href="../index.html"
     class="fixed z-50 top-6 left-4 bg-white/10 text-white w-16 h-16 md:w-16 md:h-16 sm:w-8 sm:h-8 text-2xl md:text-xl sm:text-sm flex items-center justify-center rounded-full shadow-lg hover:bg-white/20 transition">
     ⬅️
-  </a> -->
+  </a>
   <!-- Centered Form Card -->
   <div class="relative z-10 w-full max-w-2xl bg-white rounded-3xl shadow-2xl p-8 space-y-6">
     <h2 class="md:mt-0 font-bold text-gray-700 tracking-wide mb-6 flex items-center justify-center">
@@ -29,7 +29,7 @@
       <span class="mt-2 md:text-4xl text-2xl">Buku Pengunjung</span>
     </h2>
     <p class="text-center text-gray-600 text-lg mb-6">
-      Silakan isi data Anda untuk dokumentasi kehadiran di pameran ini.
+      Silakan isi data Anda untuk dokumentasi kehadiran di booth kami.
     </p>
     <form id="guestForm" class="grid md:grid-cols-2 gap-6">
       <!-- Nama -->
@@ -37,13 +37,13 @@
         <label class="block font-bold text-gray-600 mb-2">Nama *</label>
         <input type="text" name="nama"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
-          placeholder="ex: Jhon Doe" required />
+          placeholder="ex: Muhammad" required />
       </div>
       <!-- Gender -->
       <div class="col-span-2 md:col-span-1">
-        <label class="block font-bold text-gray-600 mb-2">Gender</label>
+        <label class="block font-bold text-gray-600 mb-2">Jenis Kelamin</label>
         <select name="gender"
-          class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500">
+          class="w-full border rounded-lg px-3 py-3 focus:outline-none focus:ring focus:ring-blue-500">
           <option value="laki-laki">Laki-Laki</option>
           <option value="perempuan">Perempuan</option>
         </select>
@@ -53,47 +53,49 @@
         <label class="block font-bold text-gray-600 mb-2">Pekerjaan *</label>
         <input type="text" name="pekerjaan"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
-          placeholder="ex: Karyawan / Dosen / Mahasiswa" required />
+          placeholder="ex: Guru / Pengusaha / Ibu Rumah Tangga" required />
       </div>
       <!-- Instansi -->
       <div class="col-span-2 md:col-span-1">
-        <label class="block font-bold text-gray-600 mb-2">Instansi / Universitas *</label>
+        <label class="block font-bold text-gray-600 mb-2">Instansi / Usaha / Tempat Kerja</label>
         <input type="text" name="instansi"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
-          placeholder="ex: Brawijaya" required />
+          placeholder="ex: MIN 13 Blitar" required />
       </div>
       <!-- Alamat -->
       <div class="col-span-2">
         <label class="block font-bold text-gray-600 mb-2">Alamat</label>
         <textarea name="alamat" rows="2"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
-          placeholder="ex: Dinoyo, Malang"></textarea>
+          placeholder="ex: Tegalasri, Wlingi, Blitar"></textarea>
       </div>
       <!-- No HP -->
-      <div class="col-span-2 md:col-span-1">
+      <div class="col-span-2">
         <label class="block font-bold text-gray-600 mb-2">No. HP *</label>
-        <div class="flex items-center border border-gray-300 rounded-md overflow-hidden max-w-sm">
+        <div class="w-full flex items-center border border-gray-300 rounded-md overflow-hidden">
           <span class="px-3 py-3 bg-gray-100 text-gray-700 text-sm">+62</span>
           <input type="number" name="phone" placeholder="812 3456 7890"
-            class="flex-1 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            class="w-full flex-1 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
       </div>
       <!-- Email -->
-      <div class="col-span-2 md:col-span-1">
+      <!-- <div class="col-span-2 md:col-span-1">
         <label class="block font-bold text-gray-600 mb-2">Email (Optional)</label>
         <input type="email" name="email"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
           placeholder="ex : john@mail.com" />
-      </div>
+      </div> -->
       <!-- Buttons -->
-      <div class="col-span-2 flex flex-col md:flex-row md:space-x-4 space-y-3 md:space-y-0 mt-4">
+      <!-- Buttons -->
+      <div class="col-span-2 grid grid-cols-[90%_10%] gap-4 mt-4 px-3 justify-center">
         <button type="submit"
-          class="flex-1 bg-blue-600 text-white py-3 rounded-lg text-md font-semibold hover:bg-blue-700 transition">
+          class="w-full bg-blue-600 text-white py-3 rounded-lg text-md font-semibold hover:bg-blue-700 transition">
           Simpan
         </button>
         <a href="list.html"
-          class="flex-1 text-center bg-green-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-green-700 transition">
-          Daftar Pengunjung
+          class="w-full flex items-center justify-center text-center bg-green-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-green-700 transition"
+          title="Daftar Pengunjung">
+          <span class="inline">📋</span>
         </a>
       </div>
     </form>
