@@ -33,21 +33,13 @@
     </p>
     <form id="guestForm" class="grid md:grid-cols-2 gap-6">
       <!-- Nama -->
-      <div class="col-span-2 md:col-span-1">
+      <div class="col-span-2">
         <label class="block font-bold text-gray-600 mb-2">Nama *</label>
         <input type="text" name="nama"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
           placeholder="ex: Muhammad" required />
       </div>
-      <!-- Gender -->
-      <div class="col-span-2 md:col-span-1">
-        <label class="block font-bold text-gray-600 mb-2">Jenis Kelamin</label>
-        <select name="gender"
-          class="w-full border rounded-lg px-3 py-3 focus:outline-none focus:ring focus:ring-blue-500">
-          <option value="laki-laki">Laki-Laki</option>
-          <option value="perempuan">Perempuan</option>
-        </select>
-      </div>
+
       <!-- Pekerjaan -->
       <div class="col-span-2 md:col-span-1">
         <label class="block font-bold text-gray-600 mb-2">Pekerjaan *</label>
@@ -62,21 +54,30 @@
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
           placeholder="ex: MIN 13 Blitar" required />
       </div>
+      <!-- Gender -->
+      <div class="col-span-2 md:col-span-1">
+        <label class="block font-bold text-gray-600 mb-2">Jenis Kelamin</label>
+        <select name="gender"
+          class="w-full border rounded-lg px-3 py-3 focus:outline-none focus:ring focus:ring-blue-500">
+          <option value="laki-laki">Laki-Laki</option>
+          <option value="perempuan">Perempuan</option>
+        </select>
+      </div>
+      <!-- No HP -->
+      <div class="col-span-2 md:col-span-1">
+        <label class="block font-bold text-gray-600 mb-2">No. HP *</label>
+        <div class="w-full flex items-center border border-gray-300 rounded-md overflow-hidden">
+          <span class="px-3 py-2 bg-gray-100 text-gray-700 text-sm">+62</span>
+          <input type="number" name="phone" placeholder="812 3456 7890"
+            class="w-full flex-1 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
       <!-- Alamat -->
       <div class="col-span-2">
         <label class="block font-bold text-gray-600 mb-2">Alamat</label>
         <textarea name="alamat" rows="3"
           class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
           placeholder="ex: Tegalasri, Wlingi, Blitar"></textarea>
-      </div>
-      <!-- No HP -->
-      <div class="col-span-2">
-        <label class="block font-bold text-gray-600 mb-2">No. HP *</label>
-        <div class="w-full flex items-center border border-gray-300 rounded-md overflow-hidden">
-          <span class="px-3 py-3 bg-gray-100 text-gray-700 text-sm">+62</span>
-          <input type="number" name="phone" placeholder="812 3456 7890"
-            class="w-full flex-1 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        </div>
       </div>
       <!-- Buttons -->
       <div class="col-span-2 grid grid-cols-[90%_10%] gap-4 mt-4 px-3 justify-center">
